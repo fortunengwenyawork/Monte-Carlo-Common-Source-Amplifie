@@ -1,85 +1,159 @@
-# Monte Carlo Common Source Amplifier
+
+# Monte Carlo Analysis of a Common-Source MOSFET Amplifier
 
 ## Overview
 
-This repository contains the complete design, simulation, and statistical verification of a BS170 Common-Source MOSFET Amplifier developed using LTspice.
+This project presents the design, simulation, and statistical analysis of a Common-Source MOSFET amplifier using LTspice. The objective was to evaluate amplifier performance under realistic component tolerances through Monte Carlo simulation techniques.
 
-The project investigates amplifier biasing, small-signal amplification behavior, transient response, and component tolerance sensitivity through Monte Carlo simulation techniques. Statistical analysis was performed using 100 simulation runs with ±5% resistor variation to evaluate design robustness under realistic manufacturing conditions.
+The study investigates how resistor variations influence operating point stability, output voltage, drain current, and small-signal gain. By performing 100 Monte Carlo simulation runs with ±5% component tolerance, the robustness and sensitivity of the amplifier design were quantified.
 
 ---
 
-## Objectives
+## Project Objectives
 
 - Design a Common-Source MOSFET amplifier using a BS170 transistor.
-- Establish a stable DC operating point.
-- Analyze transient response characteristics.
-- Evaluate small-signal amplification behavior.
-- Perform Monte Carlo analysis to assess component tolerance sensitivity.
-- Quantify performance variability under manufacturing uncertainties.
+- Establish a stable DC operating point through resistive biasing.
+- Analyze AC signal amplification behavior.
+- Evaluate circuit sensitivity to manufacturing tolerances.
+- Perform statistical Monte Carlo analysis using LTspice.
+- Document performance variations across multiple simulation runs.
 
 ---
 
 ## Circuit Specifications
 
 | Parameter | Value |
-|------------|---------|
-| Supply Voltage | 12 V |
+|------------|----------|
+| Supply Voltage (VDD) | 12 V |
 | MOSFET | BS170 |
-| Drain Resistor | 4.7 kΩ |
-| Source Resistor | 1 kΩ |
-| Gate Bias Network | 1 MΩ / 1 MΩ |
-| Load Resistor | 100 kΩ |
-| Input Signal | 100 mV Peak, 1 kHz |
+| Drain Resistor (RD) | 4.7 kΩ |
+| Source Resistor (RS) | 1 kΩ |
+| Gate Bias Resistors | 1 MΩ / 1 MΩ |
+| Load Resistor (RL) | 100 kΩ |
+| Input Capacitor | 10 µF |
+| Output Capacitor | 10 µF |
+| Source Bypass Capacitor | 100 µF |
+| Input Signal | 100 mV, 1 kHz |
 
 ---
 
-## Simulation Types
+## Monte Carlo Configuration
 
-### DC Operating Point Analysis
+The following LTspice directives were used:
 
-Determines quiescent operating conditions and verifies transistor biasing.
+```spice
+.param tol=0.05
+.step param run 1 100 1
+.tran 20m
+```
 
-### Transient Analysis
+Component tolerances were modeled using:
 
-Evaluates time-domain amplifier response.
+```spice
+{mc(4.7k,tol)}
+{mc(1k,tol)}
+{mc(1Meg,tol)}
+{mc(100k,tol)}
+```
 
-### Monte Carlo Analysis
-
-100 simulation runs performed using ±5% resistor tolerance variation.
+This generated 100 unique circuit instances representing realistic manufacturing variation.
 
 ---
 
-## Key Results
+## Simulations Performed
 
-- Stable MOSFET bias point achieved.
-- Consistent small-signal amplification observed.
-- Statistical output spread quantified through Monte Carlo analysis.
-- Circuit demonstrates tolerance robustness under realistic component variation.
+### 1. DC Operating Point Analysis
+Determined MOSFET bias conditions and quiescent operating point.
+
+### 2. Transient Analysis
+Evaluated amplifier response to a 1 kHz sinusoidal input.
+
+### 3. Output Voltage Analysis
+Measured amplified output signal behavior.
+
+### 4. Drain Current Analysis
+Observed current variation through the drain resistor.
+
+### 5. Monte Carlo Statistical Analysis
+Compared performance across 100 tolerance runs.
+
+---
+
+## Results Summary
+
+### Output Voltage
+
+The amplifier maintained stable operation across all Monte Carlo iterations. Output voltage variation remained within expected tolerance limits while preserving signal integrity.
+
+### Drain Current
+
+Drain current showed minor variations resulting from resistor tolerance effects. The bias network successfully maintained transistor operation in the desired region.
+
+### Gain Stability
+
+Despite component variation, amplifier gain remained highly consistent, demonstrating robust design margins.
+
+### Sensitivity Findings
+
+The largest contributors to variation were:
+
+- Drain resistor tolerance
+- Source resistor tolerance
+- Gate bias network tolerances
+
+The circuit exhibited excellent tolerance immunity and predictable behavior.
+
+---
+
+## Key Engineering Skills Demonstrated
+
+- Analog Circuit Design
+- MOSFET Biasing Techniques
+- LTspice Simulation
+- Statistical Monte Carlo Analysis
+- Sensitivity Analysis
+- Signal Integrity Evaluation
+- Data Interpretation
+- Engineering Documentation
+- Design Verification
+- Tolerance Modeling
 
 ---
 
 ## Repository Structure
 
 ```text
-LTspice/         -> LTspice simulation files
-Images/          -> Simulation screenshots
-Reports/         -> Formal engineering report
-Documentation/   -> Design notes and calculations
+Monte-Carlo-Common-Source-Amplifier
+│
+├── LTspice
+│   └── CommonSourceAmplifier.asc
+│
+├── Reports
+│   └── Monte_Carlo_Common_Source_Amplifier_Report.pdf
+│
+├── Images
+│   ├── Circuit_Schematic.png
+│   ├── Output_Voltage.png
+│   ├── Input_Signal.png
+│   ├── Drain_Current.png
+│   ├── MonteCarlo_Output.png
+│   └── MonteCarlo_Input.png
+│
+└── README.md
 ```
 
 ---
 
-## Tools Used
+## Software Used
 
 - LTspice XVII
-- Statistical Monte Carlo Analysis
-- Analog Circuit Design Techniques
-- MOSFET Small-Signal Theory
+- GitHub
+- Microsoft Word / PDF Documentation Tools
 
 ---
 
 ## Author
 
-Fortune Ngwenya
+**Fortune Ngwenya**
 
-Electrical Engineering Portfolio Project
+This project demonstrates the application of statistical simulation techniques to analog circuit verification, providing insight into real-world manufacturing variability and design robustness.
